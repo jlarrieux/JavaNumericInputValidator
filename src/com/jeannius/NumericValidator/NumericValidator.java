@@ -40,7 +40,7 @@ public class NumericValidator {
         currentTextField = textField;
         textField.setBorder(UIManager.getBorder("TextField.border"));
         boolean result = lengthValidation() && isNumericTypeInteger();
-        return lengthValidation() && isNumericTypeInteger() && isNumericTypeDouble();
+        return lengthValidation() && numberValidator();
     }
 
 
@@ -51,6 +51,14 @@ public class NumericValidator {
         return result;
     }
 
+
+
+    private boolean numberValidator(){
+
+        if(numericType==Type.DOUBLE)return isNumericTypeDouble();
+        else return isNumericTypeInteger();
+
+    }
 
 
     private boolean isNumericTypeInteger() {
