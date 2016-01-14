@@ -21,8 +21,8 @@ public class NumericValidator {
     private static final String NO_TEXT = "No text";
     private static final String NOT_INT = "Not of Expected type int";
     private static final String NOT_DOUBLE = "Not of Expected type double";
-
-
+    private boolean allowPopUpOnError= true;
+    JFrame containerFrame;
 
     public enum Type {
         DOUBLE, INTEGER
@@ -34,13 +34,21 @@ public class NumericValidator {
         this.numericType = numericType;
     }
 
+    public NumericValidator(NumericValidator.Type numericType, JFrame container){
+        this.containerFrame = container;
+    }
+
 
 
     public boolean validate(JTextField textField) {
         currentTextField = textField;
+        errorString ="";
         textField.setBorder(UIManager.getBorder("TextField.border"));
-        boolean result = lengthValidation() && isNumericTypeInteger();
-        return lengthValidation() && numberValidator();
+        boolean result = lengthValidation() && numberValidator();
+
+        if(!result && allowPopUpOnError) showErrorDialog();
+
+        return result;
     }
 
 
@@ -80,12 +88,22 @@ public class NumericValidator {
 
 
     private void errorCompilation(String text) {
-        errorString += "\n" + text;
+        if(errorString.length()>0) errorString +="\n";
+        errorString +=  text;
         Border border = BorderFactory.createLineBorder(Color.red, 2);
         currentTextField.setBorder(border);
     }
 
 
+    private void showErrorDialog(){
+        JOptionPane.showMessageDialog(containerFrame, errorString, "Input Error!", JOptionPane.ERROR_MESSAGE);
+
+    }
+
+
+    public String getErrorString(){
+        return errorString;
+    }
 
 
 
