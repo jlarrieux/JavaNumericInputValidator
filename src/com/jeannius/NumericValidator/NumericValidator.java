@@ -17,36 +17,43 @@ public class NumericValidator {
     private JTextField currentTextField;
     Object currentType;
     String errorString;
-    Type numericType;
+    TypeOfNumber numericType;
     private static final String NO_TEXT = "No text";
     private static final String NOT_INT = "Not of Expected type int";
     private static final String NOT_DOUBLE = "Not of Expected type double";
-    private boolean allowPopUpOnError= true;
     JFrame containerFrame;
 
-    public enum Type {
+    public enum TypeOfNumber {
         DOUBLE, INTEGER
     }
 
 
 
-    public NumericValidator(NumericValidator.Type numericType) {
+    public NumericValidator(TypeOfNumber numericType) {
         this.numericType = numericType;
+        System.out.printf("\nAbout to check \n");
+        if(this.numericType==null) System.out.printf("\nBEGINING NULL! \n");
     }
 
-    public NumericValidator(NumericValidator.Type numericType, JFrame container){
+
+
+    public NumericValidator(TypeOfNumber numericType, JFrame container) {
         this.containerFrame = container;
+        this.numericType = numericType;
+        System.out.printf("\nAbout to check222 \n");
+        if(this.numericType==null) System.out.printf("\nBEGINING NULL! \n");
     }
 
 
 
     public boolean validate(JTextField textField) {
         currentTextField = textField;
-        errorString ="";
+        errorString = "";
         textField.setBorder(UIManager.getBorder("TextField.border"));
         boolean result = lengthValidation() && numberValidator();
 
-        if(!result && allowPopUpOnError) showErrorDialog();
+        boolean allowPopUpOnError = true;
+        if (!result && allowPopUpOnError) showErrorDialog();
 
         return result;
     }
@@ -61,50 +68,54 @@ public class NumericValidator {
 
 
 
-    private boolean numberValidator(){
-
-        if(numericType==Type.DOUBLE)return isNumericTypeDouble();
+    private boolean numberValidator() {
+        if(numericType== null) System.out.printf("null!!!");
+        if (numericType == TypeOfNumber.DOUBLE) return isNumericTypeDouble();
         else return isNumericTypeInteger();
 
     }
 
 
+
     private boolean isNumericTypeInteger() {
         if (Pattern.matches("^\\d*$", currentTextField.getText())) return true;
-        else{
+        else {
             errorCompilation(NOT_INT);
             return false;
         }
     }
 
 
-    private boolean isNumericTypeDouble(){
+
+    private boolean isNumericTypeDouble() {
         if (Pattern.matches("^\\d*\\.?\\d*", currentTextField.getText())) return true;
-        else{
-            errorCompilation(NOT_INT);
+        else {
+            errorCompilation(NOT_DOUBLE);
             return false;
         }
     }
+
 
 
     private void errorCompilation(String text) {
-        if(errorString.length()>0) errorString +="\n";
-        errorString +=  text;
+        if (errorString.length() > 0) errorString += "\n";
+        errorString += text;
         Border border = BorderFactory.createLineBorder(Color.red, 2);
         currentTextField.setBorder(border);
     }
 
 
-    private void showErrorDialog(){
+
+    private void showErrorDialog() {
         JOptionPane.showMessageDialog(containerFrame, errorString, "Input Error!", JOptionPane.ERROR_MESSAGE);
 
     }
 
 
-    public String getErrorString(){
+
+    public String getErrorString() {
         return errorString;
     }
-
 
 
 }
