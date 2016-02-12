@@ -1,4 +1,4 @@
-package com.jeannius.NumericValidator;
+package com.jeannius.NumvericValidator;
 
 
 
@@ -16,7 +16,7 @@ public class NumericValidator {
 
     private JTextField currentTextField;
     Object currentType;
-    String errorString;
+    private String errorString="";
     TypeOfNumber numericType;
     private static final String NO_TEXT = "No text";
     private static final String NOT_INT = "Not of Expected type int";
@@ -37,18 +37,17 @@ public class NumericValidator {
 
 
 
-    public NumericValidator(TypeOfNumber numericType, JFrame container) {
-        this.containerFrame = container;
-        this.numericType = numericType;
-        System.out.printf("\nAbout to check222 \n");
-        if(this.numericType==null) System.out.printf("\nBEGINING NULL! \n");
-    }
+//    public NumericValidator(TypeOfNumber numericType, JFrame container) {
+//        this.containerFrame = container;
+//        this.numericType = numericType;
+//        System.out.printf("\nAbout to check222 \n");
+//        if(this.numericType==null) System.out.printf("\nBEGINING NULL! \n");
+//    }
 
 
 
     public boolean validate(JTextField textField) {
         currentTextField = textField;
-        errorString = "";
         textField.setBorder(UIManager.getBorder("TextField.border"));
         boolean result = lengthValidation() && numberValidator();
 
@@ -116,6 +115,8 @@ public class NumericValidator {
     public String getErrorString() {
         return errorString;
     }
+
+
 
 
 }
