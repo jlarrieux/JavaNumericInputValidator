@@ -1,8 +1,5 @@
-package unitTest;
-
-
-
-import com.jeannius.NumericValidator.NumericValidator;
+import com.jeannius.NumvericValidator.NumericValidator;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -10,9 +7,6 @@ import javax.swing.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 
 
@@ -23,13 +17,14 @@ public class NumericValidatorTest {
 
 
     static NumericValidator NUM;
-   static   Field privateField;
+    static Field privateField, privateErrorString;
 
 
 
     @BeforeClass
     public static void superSetUp() throws NoSuchFieldException, IllegalAccessException {
-        NUM = new NumericValidator(NumericValidator.Type.DOUBLE);
+        NUM = new NumericValidator(NumericValidator.TypeOfNumber.DOUBLE);
+
         privateField = NumericValidator.class.getDeclaredField("currentTextField");
         privateField.setAccessible(true);
 
@@ -43,7 +38,7 @@ public class NumericValidatorTest {
         privateField.set(NUM, text);
         Method privateMethod = NumericValidator.class.getDeclaredMethod("lengthValidation", null);
         privateMethod.setAccessible(true);
-        assertFalse((Boolean) privateMethod.invoke(NUM));
+        Assert.assertFalse((Boolean) privateMethod.invoke(NUM));
     }
 
 
@@ -54,31 +49,31 @@ public class NumericValidatorTest {
         privateField.set(NUM, text);
         Method privateMethod = NumericValidator.class.getDeclaredMethod("lengthValidation", null);
         privateMethod.setAccessible(true);
-        assertTrue((Boolean) privateMethod.invoke(NUM));
+        Assert.assertTrue((Boolean) privateMethod.invoke(NUM));
     }
 
 
 
     @Test
-    public void testIsNumericcTypeIntegerFalse() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void testIsNumericTypeIntegerFalse() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         JTextField text = new JTextField("a");
         privateField.set(NUM, text);
         Method privateMethod = NumericValidator.class.getDeclaredMethod("isNumericTypeInteger", null);
         privateMethod.setAccessible(true);
-        assertFalse((Boolean) privateMethod.invoke(NUM));
+        Assert.assertFalse((Boolean) privateMethod.invoke(NUM));
 
 
         text.setText("9.5");
         privateField.set(NUM, text);
-        assertFalse((Boolean) privateMethod.invoke(NUM));
+        Assert.assertFalse((Boolean) privateMethod.invoke(NUM));
 
         text.setText("9.5.");
         privateField.set(NUM, text);
-        assertFalse((Boolean) privateMethod.invoke(NUM));
+        Assert.assertFalse((Boolean) privateMethod.invoke(NUM));
 
         text.setText("9.5.6");
         privateField.set(NUM, text);
-        assertFalse((Boolean) privateMethod.invoke(NUM));
+        Assert.assertFalse((Boolean) privateMethod.invoke(NUM));
     }
 
 
@@ -90,7 +85,7 @@ public class NumericValidatorTest {
         privateField.set(NUM, text);
         Method privateMethod = NumericValidator.class.getDeclaredMethod("isNumericTypeInteger", null);
         privateMethod.setAccessible(true);
-        assertTrue((Boolean) privateMethod.invoke(NUM));
+        Assert.assertTrue((Boolean) privateMethod.invoke(NUM));
     }
 
 
@@ -100,15 +95,15 @@ public class NumericValidatorTest {
         privateField.set(NUM, text);
         Method privateMethod = NumericValidator.class.getDeclaredMethod("isNumericTypeDouble", null);
         privateMethod.setAccessible(true);
-        assertFalse((Boolean) privateMethod.invoke(NUM));
+        Assert.assertFalse((Boolean) privateMethod.invoke(NUM));
 
         text.setText("9.5.");
         privateField.set(NUM, text);
-        assertFalse((Boolean) privateMethod.invoke(NUM));
+        Assert.assertFalse((Boolean) privateMethod.invoke(NUM));
 
         text.setText("9.5.5");
         privateField.set(NUM, text);
-        assertFalse((Boolean) privateMethod.invoke(NUM));
+        Assert.assertFalse((Boolean) privateMethod.invoke(NUM));
     }
 
     @Test
@@ -117,11 +112,11 @@ public class NumericValidatorTest {
         privateField.set(NUM, text);
         Method privateMethod = NumericValidator.class.getDeclaredMethod("isNumericTypeDouble", null);
         privateMethod.setAccessible(true);
-        assertTrue((Boolean) privateMethod.invoke(NUM));
+        Assert.assertTrue((Boolean) privateMethod.invoke(NUM));
 
         text.setText("9.55");
         privateField.set(NUM, text);
-        assertTrue((Boolean) privateMethod.invoke(NUM));
+        Assert.assertTrue((Boolean) privateMethod.invoke(NUM));
 
     }
 
